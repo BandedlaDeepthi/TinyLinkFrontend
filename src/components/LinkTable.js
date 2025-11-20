@@ -1,11 +1,16 @@
 import React from "react";
+import API from "../services/api";
 
 export default function LinkTable({ links, onDelete }) {
   const deleteLink = async (code) => {
-    await fetch(`http://localhost:8080/api/links/${code}`, {
-      method: "DELETE",
-    });
-    onDelete();
+    if (!window.confirm("Are you sure you want to delete this link?")) return;
+
+    try {
+      await API.delete(`/api/links/${code}`);
+      onDelete();
+    } catch (err) {
+      alert("Failed to delete the link");
+    }
   };
 
   return (
@@ -30,7 +35,7 @@ export default function LinkTable({ links, onDelete }) {
             </tr>
           ) : (
             links.map((item) => {
-              const shortUrl = `http://localhost:8080/${item.code}`;
+              const shortUrl = `${process.env.REACT_APP_API_URL}/${item.code}`;
               return (
                 <tr key={item.code}>
                   <td>
