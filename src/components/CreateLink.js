@@ -10,10 +10,8 @@ export default function CreateLink() {
     try {
       const res = await API.post("/api/links", { url, customCode });
 
-      // success → backend returns { code, shortUrl }
       setResult(res.data);
     } catch (err) {
-      // backend returns { error: "message" }
       const errorMsg = err.response?.data?.error || "Something went wrong";
       setResult({ error: errorMsg });
     }
@@ -41,7 +39,6 @@ export default function CreateLink() {
 
       <button onClick={create}>Create</button>
 
-      {/* RESULT DISPLAY */}
       {result && (
         <div style={{ marginTop: "20px" }}>
           {/* Error */}
@@ -51,7 +48,6 @@ export default function CreateLink() {
             </p>
           )}
 
-          {/* Success */}
           {result.shortUrl && (
             <>
               <p><b>Short URL:</b></p>
