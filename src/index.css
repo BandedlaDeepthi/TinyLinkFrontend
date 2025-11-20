@@ -1,0 +1,148 @@
+/* Global */
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  background: #f5f5f5;
+}
+
+.container {
+  padding: 20px;
+}
+
+/* Navbar */
+.navbar {
+  width: 100%;
+  background: #ffffff;
+  padding: 15px 25px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #ddd;
+}
+
+.navbar .brand {
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.navbar .nav-links a {
+  margin-left: 20px;
+  text-decoration: none;
+  font-size: 16px;
+  color: #007bff;
+}
+
+.navbar .nav-links a:hover {
+  text-decoration: underline;
+}
+
+/* Titles */
+.title {
+  font-size: 26px;
+  margin-bottom: 15px;
+  font-weight: bold;
+}
+
+/* Card */
+.card {
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 25px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+/* Inputs */
+.card input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 15px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+}
+
+/* Buttons */
+.card button, .delete-btn {
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 18px;
+  font-size: 15px;
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+.card button:hover, .delete-btn:hover {
+  background: #005fcc;
+}
+
+/* Delete button */
+.delete-btn {
+  background: #e63946;
+}
+
+.delete-btn:hover {
+  background: #c1181f;
+}
+
+/* Table */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+table th {
+  background: #f0f0f0;
+  padding: 12px;
+  font-weight: bold;
+  text-align: left;
+  border-bottom: 2px solid #ccc;
+}
+
+table td {
+  padding: 12px;
+  border-bottom: 1px solid #ddd;
+}
+
+.empty-text {
+  text-align: center;
+  padding: 15px;
+  color: #888;
+  font-style: italic;
+}
+
+/* Truncate long URLs */
+.truncate {
+  max-width: 400px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Highlight text */
+.highlight {
+  background: #e8f1ff;
+  padding: 4px 8px;
+  border-radius: 6px;
+}
+
+/* Code link */
+.code-link {
+  color: #007bff;
+  font-weight: bold;
+}
+
+.code-link:hover {
+  text-decoration: underline;
+}
+
+/* Health page */
+.health-box {
+  background: #f7faff;
+  padding: 15px;
+  border-radius: 8px;
+  border: 1px solid #d0e4ff;
+  overflow: auto;
+}
