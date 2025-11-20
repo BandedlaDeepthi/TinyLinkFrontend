@@ -4,15 +4,36 @@ import { Link } from "react-router-dom";
 
 function LinkList() {
   const [links, setLinks] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  const fetchLinks = async () => {
+    try {
+      const res = await API.get("/api/links");
+      setLinks(res.data);
+    } catch (err) {
+      setError("Failed to fetch links");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    API.get("/api/links").then((res) => setLinks(res.data));
+    fetchLinks();
   }, []);
 
   const deleteLink = async (code) => {
-    await API.delete(`/api/links/${code}`);
-    setLinks(links.filter((l) => l.code !== code));
+    if (!window.confirm("Are you sure you want to delete this link?")) return;
+    try {
+      await API.delete(`/api/links/${code}`);
+      setLinks((prev) => prev.filter((l) => l.code !== code));
+    } catch (err) {
+      alert("Failed to delete the link");
+    }
   };
+
+  if (loading) return <p>Loading links...</p>;
+  if (error) return <p style={{ color: "red" }}>{error}</p>;
 
   return (
     <div>
@@ -44,7 +65,6 @@ function LinkList() {
             </tr>
           ))}
         </tbody>
-
       </table>
     </div>
   );
