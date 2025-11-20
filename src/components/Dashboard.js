@@ -6,7 +6,7 @@ export default function Dashboard() {
   const [links, setLinks] = useState([]);
 
   const fetchLinks = async () => {
-    const res = await fetch("http://localhost:8080/api/links");
+    const res = await fetch(`${process.env.REACT_APP_API_URL}/api/links`);
     const data = await res.json();
     setLinks(data);
   };
