@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import API from "../services/api"; 
 
 export default function CreateLinkForm({ onCreate }) {
   const [url, setUrl] = useState("");
@@ -6,68 +7,52 @@ export default function CreateLinkForm({ onCreate }) {
   const [shortLink, setShortLink] = useState("");
 
   const createLink = async () => {
-    // BUG FIX 1 – URL empty
     if (!url || url.trim() === "") {
       alert("Please enter a valid URL");
       return;
     }
 
-    const res = await fetch("http://localhost:8080/api/links", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ url, customCode }),
-    });
+    try {
+      const res = await API.post("/api/links", { url, customCode });
 
-    // If backend returned an error
-    if (!res.ok) {
-      const errorData = await res.json();
+      const fullShortUrl = `${process.env.REACT_APP_API_URL}/${res.data.code}`;
+      setShortLink(fullShortUrl);
 
-      // BUG FIX 2 – Custom code exists
-      if (
-        errorData.error &&
-        errorData.error.includes("Custom code already used")
-      ) {
+      setUrl("");
+      setCustomCode("");
+      onCreate();
+    } catch (err) {
+      const errorMsg = err.response?.data?.error || "Something went wrong";
+
+      if (errorMsg.includes("Custom code already used")) {
         const choice = window.confirm(
           "This custom code already exists.\n\nDo you want to generate a random code instead?"
         );
 
         if (choice) {
-          return createRandomLink(); // -> call function below
+          return createRandomLink();
         } else {
-          return; // stop
+          return;
         }
       }
 
-      alert(errorData.error || "Something went wrong");
-      return;
+      alert(errorMsg);
     }
-
-    // On success
-    const data = await res.json();
-    const fullShortUrl = `http://localhost:8080/${data.code}`;
-    setShortLink(fullShortUrl);
-
-    setUrl("");
-    setCustomCode("");
-
-    onCreate();
   };
 
   const createRandomLink = async () => {
-    const res = await fetch("http://localhost:8080/api/links", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ url, customCode: "" }),
-    });
+    try {
+      const res = await API.post("/api/links", { url, customCode: "" });
+      const fullShortUrl = `${process.env.REACT_APP_API_URL}/${res.data.code}`;
+      setShortLink(fullShortUrl);
 
-    const data = await res.json();
-    const fullShortUrl = `http://localhost:8080/${data.code}`;
-    setShortLink(fullShortUrl);
-
-    setUrl("");
-    setCustomCode("");
-
-    onCreate();
+      setUrl("");
+      setCustomCode("");
+      onCreate();
+    } catch (err) {
+      const errorMsg = err.response?.data?.error || "Something went wrong";
+      alert(errorMsg);
+    }
   };
 
   const copyToClipboard = () => {
