@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from "react";
+import API from "../services/api"; 
 
 export default function HealthCheck() {
   const [status, setStatus] = useState("Checking...");
 
   const check = async () => {
     try {
-      const res = await fetch("http://localhost:8080/healthz");
-      const data = await res.json();
-      setStatus(JSON.stringify(data, null, 2));
+      const res = await API.get("/healthz"); 
+      setStatus(JSON.stringify(res.data, null, 2));
     } catch {
-      setStatus("Server Down ❌");
+      setStatus("Server Down !");
     }
   };
 
